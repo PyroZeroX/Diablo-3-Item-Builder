@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8">
+<meta name="keywords" content="Diablo 3, Item, Builder">
+<meta name="description" content="Diablo 3 Item Builder">
+<meta property="og:title" content="Diablo 3 Item Builder" />
+<meta property="og:description" content="Check out this Diablo 3 Item that I created!" />
+<title>Diablo 3 Item Builder</title>
+<!--[if lt IE 9]><script   src="http://html5shiv.googlecode.com/svn/trunk/html5.js">    </script> [endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="./css/default.css" />
+</head>
+<body>
+	<div id="display">
+		<div id="titlebar" class='top'>
+			<h1 class="itemname" data-bind="text: itemName, css: { magic: isMagic(), rare: isRare(), legendary: isLegendary(), set: isSet() }"></h1>
+		</div>
+		<div id="icon" data-bind="css: { magicbg: isMagic(), rarebg: isRare(), legendarybg: isLegendary(), setbg: isSet() }">
+			<div id="dispimage" data-bind="style: { background: myType() || selectedItemType() ? itemImage() : ''}"></div>
+		</div>
+		<div id="misc">
+			<div id="miscleft">
+				<p id="itemRarity" data-bind="text: myRarity() ? myRarity().type : selectedRarity() ? selectedRarity().type : 'Normal', css: { magic: isMagic(), rare: isRare(), legendary: isLegendary(), set: isSet() }"></p>
+				<p id="itemClassification" data-bind="text: myType() ? myType().itemCategory : selectedItemType() ? selectedItemType().itemCategory : 'Weapon', css: { magic: isMagic(), rare: isRare(), legendary: isLegendary(), set: isSet() }"></p>
+			</div>
+			<div id="miscright">
+				<p id="itemHands" data-bind="text: myPart() ? myPart().part : selectedPart() ? selectedPart().part : ''"></p><br/>
+				<p id="itemClass" data-bind="text: myClass() ? myClass().race : selectedClass() ? selectedClass().race : ''"></p>
+			</div>
+		</div>
+		<!--<div id="stats" data-bind="style:{ background: myEffect() ? itemEffectImage() : selectedEffect() ? itemEffectImage(): ''}">-->
+		<div id="stats">
+			<div id="dpsbox">
+				<h1 id="dpsvalue" data-bind="text: dps() ? dps() : '0'"></h1>
+				<p id="dpslabel" data-bind="text: isArmor() ? 'Armor' : 'Damage Per Second'"></p>
+			</div>
+			<br/>
+			<div id="statsbox" data-bind="visible: isWeapon()">
+				<p id="itemdmgrange" data-bind="text: damageRange"></p>
+				<p id='damagelabel' data-bind="text: myEffect() ? myEffect().type + ' Damage' : selectedEffect() ? selectedEffect().type + ' Damage' :'Damage'"></p>
+				<br/>
+				<p id="itematkspd" data-bind="text: attackSpeed"></p>
+				<p id='atkspdlabel'>Attacks Per Second</p>
+			</div>
+		</div>
+		<div id="attributes">
+			<ul id='attrlist' data-bind="foreach: itemAttributes">
+				<li data-bind="text: socket() ? ' Empty Socket' : attrValue() > 0 ? '+'+attrValue() + ' ' + attrName() : attrValue() + ' ' + attrName(), css:{ socket: socket(), bullet: !socket() }"></li>
+			</ul>
+		</div>
+		<hr style="clear: both; border: none"/>
+		<div id="changesbox">
+			<div id="equip">
+				<p class="itemlife" data-bind="text: life() > 0 ? '+'+ life() : life(), css: { positive: life() > 0, negative: life() < 0 }"></p>
+				<p class="itemdmg" data-bind="text: damage() > 0 ? '+'+ damage() : damage(), css: { positive: damage() > 0, negative: damage() < 0 }"></p>
+				<p class="itemproc" data-bind="text: protection() > 0 ? '+'+ protection() + '%': protection() + '%', css: { positive: protection() > 0, negative: protection() < 0 }"></p>
+			</div>
+			<div id="equiplabels">
+				<p class="hplabel">Health</p>
+				<p class="dmglabel">Damage</p>
+				<p class="proclabel">Protection</p>
+			</div>
+			<div id="level">
+				<p class="itemlevel" data-bind="text: levelRequired"></p>
+			</div>
+		</div>
+		<div id="itemfooter">
+				<div id="sell"><p class="itemsell" data-bind="text: sellValue"></p></div><img id="coinimg" src='./img/coin.png'/>
+				<div id="dura"><p class="itemdura" data-bind="text: durabilityString"></p></div>
+			</div>
+		</div>
+	</div>
+	<div id="social">
+		<h3>Diablo 3 Item Builder</h3>
+		<p id="author">Created by <a href="http://www.twitter.com/pyrozerox">@PyroZeroX</a></p>
+		<div id="links" data-bind="visible: isDBLoaded()">
+			<h3>Thank you for visiting!</h3>
+			<h3>Please Share!</h3>
+			<div id="socialicons">
+				<a href="#" id="itemlink"><img src='./img/link.png' alt='Link to item!'/></a>
+				<a href="http://www.d3itembuilder.com" id="retrylink"><img src='./img/retry.png' alt='Build another item!' /></a>
+				<a href="#" id="tweetlink"><img src='./img/t.png' alt='Tweet this item!' /></a>
+				<a id="fblink" name="fb_share" type="icon_link" share_url="#" href="#"><img src='./img/fb.png' alt='Facebook this item!' /></a>
+			</div>
+		</div>
+	</div>
+	<div id="edititem" data-bind="visible: !isDBLoaded()">
+		<form>
+			<label for="itemname">Item Name: </label>
+			<input id="itemname" type="text" data-bind="value: itemName, valueUpdate: 'afterkeydown'" />
+			<button data-bind="click: save, enable: itemName().length > 0, css: {addbtn:true}">Save</button>
+			<br/>
+			<label for="itemdps">DPS: </label>
+			<input id="itemdps" type="number" data-bind="value: dps, valueUpdate: 'afterkeydown'" />
+			<br/><label for="attackspeed">Attack speed: </label>
+			<input id="attackspeed" type="number" data-bind="value: attackSpeed, valueUpdate: 'afterkeydown'" />
+			<br/><label for="damagerange">Damage Range: </label>
+			<input id="ldamagerange" type="number" data-bind="value: lowerRange" /> -
+			<input id="udamagerange" type="number" data-bind="value: upperRange" />
+			<br/>
+			<label for="classtype">Class type: </label>
+			<select id="classtype" data-bind="options: requiredClass,
+	                   optionsText: function(item){return item.race},
+	                   selectedValue: myClass() ? myClass() : selectedClass() ? selectedClass() : '',
+	                   value: selectedClass,
+	                   optionsCaption: myClass() ? myClass().race : 'Choose...'"></select>
+			
+			<br/>
+			<label for="itemtype">Item type: </label>
+			<select id="itemtype" data-bind="options: itemType,
+	                   optionsText: function(item){return item.itemType + ': ' + item.itemCategory},
+	                   value: selectedItemType,
+	                   optionsCaption: myType() ? myType().itemType + ': ' + myType().itemCategory  : 'Choose...',
+	                   event: { change: itemTypeChanged }"></select>
+
+	        <button data-bind="click: decrementImageInt, enable: currentImageInt() > 1, css:{imgbtn:true}">&lt&lt</button>
+	        <button data-bind="click: incrementImageInt, enable: currentImageInt() < imageIntMax(), css:{imgbtn:true}">&gt&gt</button>
+
+           <br/><label for="effect">Effect: </label>
+	        <select id="effect" data-bind="options: effect,
+	                   optionsText: function(item) {return item.type},
+	                   value: selectedEffect,
+	                   optionsCaption: myEffect() ? myEffect.type :'Choose...'"></select>
+			
+			<br/><label for="hands">Body Part: </label>
+			<select id="hands" data-bind="options: bodyPart,
+	                   optionsText: function(item) {return item.type + ' : ' + item.part},
+	                   value: selectedPart,
+	                   optionsCaption: myPart() ? myPart.type : 'Choose...'"></select>
+			
+			<br/><label for="rarity">Rarity: </label>
+	        <select id="rarity" data-bind="options: rarity,
+	                   optionsText: function(item) {return item.type + ' Item'},
+	                   value: selectedRarity,
+	                   optionsCaption: myRarity() ? myRarity().type : 'Choose...'"></select>
+	        <br/>
+	        <label for="life">Life change: </label>
+	        <input id="life" type="number" data-bind="value: life, valueUpdate: 'afterkeydown'"/>
+
+	        <br/><label for="damage">Damage change: </label>
+	        <input id="damage" type="number" data-bind="value: damage, valueUpdate: 'afterkeydown'"/>
+	        <br/><label for="protection">Protection change: </label>
+	        <input id="protection" type="number" data-bind="value: protection, valueUpdate: 'afterkeydown'"/>
+	        <br/><label for="sellValue">Sell Value: </label>
+	        <input id="sellValue" type="number" data-bind="value: sellValue, valueUpdate: 'afterkeydown'"/>
+	        <br/><label for="levelRequired">Level Required: </label>
+	        <input id="levelRequired" type="number" data-bind="value: levelRequired, valueUpdate: 'afterkeydown'"/>
+	        <br/><label for="durability">Durability: </label>
+	        <input id="durability" type="number" data-bind="value: durability, valueUpdate: 'afterkeydown'"/>
+	        <br/>
+	        <label>Attributes:</label>
+	        <table>
+			    <tbody data-bind="foreach: itemAttributes">
+			        <tr>
+			            <td><input data-bind="value: attrValue"/></td>
+			            <td><input data-bind="value: attrName" /></td>
+			            <td><input type="checkbox" data-bind="checked: socket" /> Socket</td>
+			            <td><a href="#" data-bind="click: this.removeAttribute, css: {removebtn: true}">Remove</a></td>
+			        </tr>    
+			    </tbody>
+			</table>
+			<button data-bind="click: addAttribute, enable: itemAttributes().length < 5, css: {addbtn: itemAttributes().length < 5, addbtndisable: itemAttributes().length > 5}">Add Attribute</button>
+		</form>
+	</div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<!--<script type="text/javascript" src="js/jquery.js"></script>-->
+<script type="text/javascript" src="js/knockout-2.1.0.js"></script>
+<script type="text/javascript" src="js/trollitem.js"></script>
+<script type="text/javascript" src="js/analytics.js"></script>
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+</body>
+</html>
