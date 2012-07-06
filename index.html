@@ -19,6 +19,7 @@
 		<div id="icon" data-bind="css: { magicbg: isMagic(), rarebg: isRare(), legendarybg: isLegendary(), setbg: isSet() }">
 			<div id="dispimage" data-bind="style: { background: myType() || selectedItemType() ? itemImage() : ''}"></div>
 		</div>
+		<div id="effect" data-bind="style: { background: myEffect() ? itemEffectImage() : selectedEffect() ? itemEffectImage() : '' }"></div>
 		<div id="misc">
 			<div id="miscleft">
 				<p id="itemRarity" data-bind="text: myRarity() ? myRarity().type : selectedRarity() ? selectedRarity().type : 'Normal', css: { magic: isMagic(), rare: isRare(), legendary: isLegendary(), set: isSet() }"></p>
@@ -29,13 +30,11 @@
 				<p id="itemClass" data-bind="text: myClass() ? myClass().race : selectedClass() ? selectedClass().race : ''"></p>
 			</div>
 		</div>
-		<!--<div id="stats" data-bind="style:{ background: myEffect() ? itemEffectImage() : selectedEffect() ? itemEffectImage(): ''}">-->
 		<div id="stats">
 			<div id="dpsbox">
 				<h1 id="dpsvalue" data-bind="text: dps() ? dps() : '0'"></h1>
 				<p id="dpslabel" data-bind="text: isArmor() ? 'Armor' : 'Damage Per Second'"></p>
 			</div>
-			<br/>
 			<div id="statsbox" data-bind="visible: isWeapon()">
 				<p id="itemdmgrange" data-bind="text: damageRange"></p>
 				<p id='damagelabel' data-bind="text: myEffect() ? myEffect().type + ' Damage' : selectedEffect() ? selectedEffect().type + ' Damage' :'Damage'"></p>
@@ -117,8 +116,8 @@
 	        <button data-bind="click: decrementImageInt, enable: currentImageInt() > 1, css:{imgbtn:true}">&lt&lt</button>
 	        <button data-bind="click: incrementImageInt, enable: currentImageInt() < imageIntMax(), css:{imgbtn:true}">&gt&gt</button>
 
-           <br/><label for="effect">Effect: </label>
-	        <select id="effect" data-bind="options: effect,
+           <br/><label for="itemeffect">Effect: </label>
+	        <select id="itemeffect" data-bind="options: effect,
 	                   optionsText: function(item) {return item.type},
 	                   value: selectedEffect,
 	                   optionsCaption: myEffect() ? myEffect.type :'Choose...'"></select>

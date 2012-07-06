@@ -99,6 +99,7 @@ h3
 {
 	position: relative;
 	min-height: 125px;
+	z-index: 2;
 }
 
 #misc
@@ -116,6 +117,16 @@ h3
 {
 
 	text-align: right;
+}
+
+#effect
+{
+	position: absolute;
+	top: 60px;
+	width: 150px;
+	height: 175px;
+	z-index: 0;
+	background: none;
 }
 
 #stats
@@ -233,6 +244,7 @@ h3
 
 #statsbox
 {
+	margin-top: 10px;
 	padding-left: 20px;
 }
 
@@ -347,21 +359,25 @@ h3
 .rarebg
 {
 	background: url('../img/rare.png') no-repeat;
+	z-index: 1;
 }
 
 .legendarybg
 {
 	background: url('../img/legendary.png') no-repeat;
+	z-index: 1;
 }
 
 .setbg
 {
 	background: url('../img/legendary.png') no-repeat;
+	z-index: 1;
 }
 
 .magicbg
 {
 	background: url('../img/magic.png') no-repeat;
+	z-index: 1;
 }
 
 #dpslabel, #damagelabel, #atkspdlabel, #itemHands, #itemClass

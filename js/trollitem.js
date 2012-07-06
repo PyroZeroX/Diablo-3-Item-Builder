@@ -37,6 +37,8 @@ function ItemViewModel()
     self.damage = ko.observable(0);
     self.protection = ko.observable(0);
     self.sellValue = ko.observable(0);
+
+    self.itemLevel = ko.observable(0); //unimplemented
     self.levelRequired = ko.observable(0);
     self.durability = ko.observable(0);
     
@@ -73,6 +75,7 @@ function ItemViewModel()
         new itemEffect("Fire"),
         new itemEffect("Holy"),
         new itemEffect("Poison"),
+        new itemEffect("Lightning"),
         new itemEffect("Cold")
     ]);
 
@@ -284,7 +287,11 @@ function ItemViewModel()
     self.itemEffectImage = ko.computed(function()
     {
         var effecttype = myEffect() ? myEffect().type : selectedEffect() ? selectedEffect().type : '';
-        return "url('img/effects/" + effecttype.toLowerCase() + ".png') no-repeat";
+        if(isArmor())
+        {
+            return "url('img/effects/" + 'armor' + ".png') no-repeat";
+        }
+        else return "url('img/effects/" + effecttype.toLowerCase() + ".png') no-repeat";
     });
    
     //detailed attributes string
