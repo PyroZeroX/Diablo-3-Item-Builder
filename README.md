@@ -17,9 +17,11 @@ http://www.d3itembuilder.com
 - Socket spacing is incorrect
 
 #Load and Save
-You'll probably notice (if not, I guess you'll notice now) that my load and save directories (containing some PHP) are missing.
-This is because I dont really want to share the database access with the world for security reasons.
-I will provide a description which should be more than enough, if you need to know more or want to build your own, I will share this privately (via email will do)
-
-Save: Takes the Knockout model JSON via POST and builds a random link "hash" from between 7 to 20 characters long at random. Saves to database.
-Load: Takes an item "hash" via POST and retrieves it from the database, returning a JSON encoded version of the item for the javascript to build.
+You'll notice a require_once('../config/configuration.php') line in both the load and save php documents.
+This is a PHP file that contains 4 variables. I wont be sharing my own configuration file for security reasons, however here is the template :)
+<?
+$host = 'localhost';
+$user = ''; //your db username
+$pass = ''; //your db password
+$db = ''; //your db name
+?>
